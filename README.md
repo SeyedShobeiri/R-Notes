@@ -1,2 +1,2 @@
 # R-Notes
-My Notes from Advance R by hadley wickham
+My Notes from Advanced R by hadley wickham
