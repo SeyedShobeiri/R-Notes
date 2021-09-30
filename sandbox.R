@@ -107,6 +107,89 @@ obj_size(b)
 obj_size(a,b)
 
 
+x <- data.frame(matrix(runif(5*1e4),ncol=5))
+medians <- vapply(x,median,numeric(1))
+
+for (i in seq_along(medians)) {
+  x[[i]] <- x[[i]] - medians[[i]]
+}
+
+cat(tracemem(x),"\n")
+
+for (i in 1:5){
+  x[[i]] <- x[[i]] - medians[[i]]
+}
+
+untracemem(x)
+
+# In fact, each iteration copies the data frame not once, not twice, but three times! Two copies are made by [[.data.frame, and a further copy7 is made because
+# [[.data.frame is a regular function that increments the reference count of x. We can reduce the number of copies by using a list instead of a data frame.
+# Modifying a list uses internal C code, so the references are not incremented and only a single copy is made
+
+y = as.list(x)
+cat(tracemem(y),"\n")
+for (i in 1:5){
+  y[[i]] <- y[[i]] - medians[[i]]
+}
+
+
+# environments are always modified in place.
+e1 = rlang::env(a=1,b=2,c=3)
+e2 <- e1
+e1$c <- 4
+e2$c
+
+# environments can contain themselves
+e1$self <- e1
+ref(e1)
+
+tracemem(e1)
+
+
+median_subtractor = function(data){
+  medians <- vapply(data,median,numeric(1))
+  for (i in seq_along(medians)){
+    data[[i]] = data[[i]] - medians[[i]]
+  }
+  return(data)
+}
+
+data_df = list(matrix(runif(5*1e6),ncol=5))
+bench::bench_time(median_subtractor(data_df))
+
+gcinfo(TRUE)
+
+gc()
+lobstr::mem_used()
+
+
+# quote non-syntactic names with backticks: `
+df <- data.frame(runif(3),runif(3))
+names(df) <- c(1,2)
+df$`3` <- df$`1` + df$`2`
+
+df
+
+# Vectors come in two flavours: atomic vectors and lists2. They differ in terms of their elements’ types: for atomic vectors, all elements must have the same type; 
+# for lists, elements can have different types. most important S3
+# vectors: factors, date and times, data frames, and tibbles. And while 2D structures like
+# matrices and data frames are not necessarily what come to mind when you think of vectors,
+# you’ll also learn why R considers them to be vectors.
+
+# There are four primary types of atomic vectors: logical, integer, double, and character (which contains strings).
+# Integers are written similarly to doubles but must be followed by L
+# Strings are surrounded by ” (”hi”) or ’ (’bye’). Special characters are escaped with \
+
+
+int_var <- c(1L,2L,3L)
+typeof(int_var)
+length(int_var)
+
+
+
+
+
+
 
 
 
