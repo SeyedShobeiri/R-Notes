@@ -186,20 +186,35 @@ typeof(int_var)
 length(int_var)
 
 
+# R represents missing, or unknown values, with special sentinel value: NA (short for not applicable).
+# Missing values tend to be infectious: most computations involving a missing
+# value will return another missing value.
 
+x <- c(NA,5,NA,10)
+x == NA
+is.na(x)
 
+# combining character and integer yields a character:
 
+str(c("a",1))
 
+# Coercion often happens automatically. Most mathematical functions (+, log, abs, etc.) will
+# coerce to numeric. This coercion is particularly useful for logical vectors because TRUE
+# becomes 1 and FALSE becomes 0.
 
+# For atomic vectors, type is a property of the entire vector: all elements must be the same type.
+# When you attempt to combine different types they will be coerced in a fixed order: character
+# → double → integer → logical.
 
+x <- c(FALSE,TRUE,FALSE)
+as.numeric(x)
 
+as.integer(c("1","1.5","a"))
 
+raw(2)
+complex(1,3,4)
 
-
-
-
-
-
-
-
-
+c(1,FALSE)
+c("a",1)
+c(TRUE,1L)
+c(FALSE,NA_character_)
