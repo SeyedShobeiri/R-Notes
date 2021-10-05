@@ -218,3 +218,135 @@ c(1,FALSE)
 c("a",1)
 c(TRUE,1L)
 c(FALSE,NA_character_)
+
+# You might have noticed that the set of atomic vectors does not include a number of important
+# data structures like matrices, arrays, factors, or date-times. These types are built on top of
+# atomic vectors by adding attributes.
+
+
+a <- 1:3
+attr(a,"x") <- "abcdef"
+attr(a,"x")
+
+attr(a,"y") <- 4:6
+str(attributes(a))
+
+a <- structure(
+  1:3,
+  x = "abcdef",
+  y = 4:6
+)
+str(attributes(a))
+
+# Attributes should generally be thought of as ephemeral. For example, most attributes are lost
+# by most operations
+ 
+# names, a character vector giving each element a name.
+# dim, short for dimensions, an integer vector, used to turn vectors into matrices or arrays.
+
+# Naming vectors (methods)
+# 1
+x <- c(a=1,b=2,c=3)
+# 2
+x <- 1:3
+names(x) <- c("a","b","c")
+# 3
+x <- setNames(1:3,c("a","b","c"))
+
+# remove names methods
+# 1
+unname(x)
+# 2
+names(x) <- NULL
+
+a <- matrix(1:6,nrow = 2,ncol = 3)
+a
+b <- array(1:12,c(2,3,2))
+b
+c <- 1:6
+dim(c) <- c(3,2)
+c
+str(attributes(a))
+str(attributes(b))
+str(attributes(c))
+
+
+structure(1:5,.comment = "my attribute")
+
+# In this section, we’ll discuss four important S3 vectors used in base R:
+#   Categorical data, where values come from a fixed set of levels recorded in factor vectors.
+#   Dates (with day resolution), which are recorded in Date vectors.
+#   Date-times (with second or sub-second resolution), which are stored in POSIXct vectors.
+#   Durations, which are stored in difftime vectors.
+
+# Factors
+x <- factor(c("a","b","b","a")) 
+x
+typeof(x)
+attributes(x)
+
+sex_char <- c("m","m","")
+sex_factor <- factor(sex_char,levels=c("m","f"))
+table(sex_factor)
+table(sex_char)
+
+
+grade <- ordered(c("b","b","a","c"), levels = c("c","b","a"))
+grade
+
+# While factors look like (and often behave like) character vectors, they are built on top of
+# integers.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
