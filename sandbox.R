@@ -298,18 +298,99 @@ grade
 # integers.
 
 
+# Date vectors are built on top of double vectors. They have class “Date” and no other
+# attributes:
+
+today <- Sys.Date()
+typeof(today)
+attributes(today)
 
 
+date <- as.Date("1970-02-01")
+unclass(date)
 
 
+# Base R10 provides two ways of storing date-time information, POSIXct, and POSIXlt. These
+# are admittedly odd names: “POSIX” is short for Portable Operating System Interface, which
+# is a family of cross-platform standards. “ct” standards for calendar time (the time_t type in C), 
+# and “lt” for local time (the struct tm type in C). Here we’ll focus on POSIXct, because
+# it’s the simplest, is built on top of an atomic vector, and is most appropriate for use in data
+# frames. POSIXct vectors are built on top of double vectors, where the value represents the
+# number of seconds since 1970-01-01.
+
+now_ct <- as.POSIXct("2021-10-05 22:00",tz = "UTC")
+now_ct
+typeof(now_ct)
+attributes(now_ct)
+
+structure(now_ct,tzone = "America/New_York")
+structure(now_ct,tzone = "Australia/Lord_Howe")
 
 
+# Difftimes are built on top of doubles, and have a units attribute that
+# determines how the integer should be interpreted:
+
+one_week_1 <- as.difftime(1,units = "weeks")
+one_week_1
+typeof(one_week_1)
+attributes(one_week_1)
+
+one_week_2 <- as.difftime(1,units = "days")
+attributes(one_week_2)
 
 
+f1 <- factor(letters)
+levels(f1) <- rev(levels(f1))
+f1
+
+f2 <- rev(factor(letters))
+f3 <- factor(letters,levels = rev(letters))
+f2
+f3
 
 
+l1 <- list(
+  1:3,
+  "a",
+  c(TRUE,FALSE,TRUE),
+  c(2.3,5.9)
+)
+
+typeof(l1)
+str(l1)
+
+lobstr::obj_size(mtcars)
+l2 <- list(mtcars,mtcars)
+lobstr::obj_size(l2)
 
 
+l3 <- list(list(list(1)))
+str(l3)
+
+# c() will combine several lists into one. If given a combination of atomic vectors and lists,
+# c() will coerce the vectors to lists before combining them.
+
+l4 <- list(list(1,2),c(3,4))
+l5 <- c(list(1,2),c(3,4))
+str(l4)
+str(l5)
+
+
+list(1:3)
+x = as.list(1:3)
+x
+as.vector(x)
+unlist(x)
+
+
+l <- list(1:3,"a",TRUE,1.0)
+dim(l) <- c(2,2)
+l
+l[[1,1]]
+
+
+c(date,now_ct)
+list(date,now_ct)
 
 
 
