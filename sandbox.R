@@ -393,6 +393,75 @@ c(date,now_ct)
 list(date,now_ct)
 
 
+# The two most important S3 vectors built on top of lists are data frames and tibbles.
+
+df1 <- data.frame(x=1:3,y=letters[1:3])
+typeof(df1)
+attributes(df1)
+
+
+library(tibble)
+
+df2 <- tibble(x=1:3,y=letters[1:3])
+typeof(df2)
+attributes(df2)
+
+
+str(df1)
+df3 <- data.frame(
+  x = 1:3,
+  y = letters[1:3],
+  stringsAsFactors = TRUE
+)
+
+str(df3)
+
+
+# Creating a tibble is similar to creating a data frame. The difference between the two is that
+# tibbles never coerce their input (this is one feature that makes them lazy):
+
+# Additionally, while data frames automatically transform non-syntactic names (unless check.names = FALSE), 
+# tibbles do not (although they do print non-syntactic names surrounded by `).
+
+names(data.frame(`1` = 1))
+names(tibble(`1` = 1))
+
+# 
+# While every element of a data frame (or tibble) must have the same length, both
+# data.frame() and tibble() will recycle shorter inputs. However, while data frames
+# automatically recycle columns that are an integer multiple of the longest column, tibbles will
+# only recycle vectors of length one.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
